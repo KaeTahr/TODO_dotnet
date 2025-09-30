@@ -10,9 +10,9 @@ public class TodoService
 
     public IEnumerable<TodoItem> GetAll() => _todos;
 
-    public TodoItem Add(string title)
+    public TodoItem Add(TodoItem todo)
     {
-        var todo = new TodoItem { Id = _nextId++, Title = title, IsComplete = false };
+        todo.Id = _nextId++;
         _todos.Add(todo);
         return todo;
     }
@@ -23,5 +23,11 @@ public class TodoService
         if (todo == null) return false;
         _todos.Remove(todo);
         return true;
+    }
+
+    public TodoItem? Update(int id, Action<TodoItem> mut)
+    {
+        var t = _todos.FirstOrDefault(x => x.Id == id);
+        if (t == null) return null; mut(t); return t;
     }
 }

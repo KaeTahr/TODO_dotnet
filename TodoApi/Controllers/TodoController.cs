@@ -18,17 +18,22 @@ namespace TodoApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<TodoItem>> GetTodos()
         {
+            Console.WriteLine("Getting all todos");
             return Ok(_service.GetAll());
         }
 
         [HttpPost]
         public ActionResult<TodoItem> AddTodo([FromBody] TodoItem todo)
         {
-            if (string.IsNullOrWhiteSpace(todo.Title))
-                return BadRequest("Title is required.");
+            Console.WriteLine("Received new todo:");
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(ModelState));
+                return BadRequest(ModelState);
+            }
 
-            var added = _service.Add(todo.Title);
-            return CreatedAtAction(nameof(GetTodos), new { id = added.Id }, added);
+            var created = _service.Add(todo);
+            return CreatedAtAction(nameof(GetTodos), new { id = created.Id }, created);
         }
 
         [HttpDelete("{id}")]
@@ -38,5 +43,17 @@ namespace TodoApi.Controllers
             if (!deleted) return NotFound();
             return NoContent();
         }
+
+        [HttpPut("{id}")]
+        public ActionResult<TodoItem> UpdateTodo(int id, [FromBody] TodoItem incoming) =>
+        _service.Update(id, t =>
+        {
+            t.Title = incoming.Title;
+            t.Description = incoming.Description;
+            t.AssignedTo = incoming.AssignedTo;
+            t.Status = incoming.Status;
+
+        }) is { } updated ? Ok(updated) : NotFound();
+
     }
 }
