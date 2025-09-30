@@ -24,7 +24,10 @@ export class TodoList implements OnInit {
   }
 
   loadTodos(): void {
-    this.todoService.getTodos().subscribe(data => this.todos = data);
+    this.todoService.getTodos().subscribe(data => {
+      console.log('GET /todos ->', data);
+       this.todos = data;
+    });
   }
 
   addTodo(): void {
