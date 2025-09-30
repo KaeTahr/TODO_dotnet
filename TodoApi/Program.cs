@@ -11,7 +11,21 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+const string AllowLocalAngular = "AllowLocalAngular";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowLocalAngular,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                      });
+});
+
 var app = builder.Build();
+
+app.UseCors(AllowLocalAngular);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
