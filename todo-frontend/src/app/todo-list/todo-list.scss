@@ -1,0 +1,8 @@
+.cards {display:grid; gap:12px; }
+.card { border:1px solid #eee; border-radius:12px; padding:12px; cursor:pointer; }
+.action button { margin-left:8px; } 
+.badge.todo{background: #b9f6ca} 
+.badge.progress{background: #ffd36e}
+.badge.done{background: #90caf9}
+.green{background: #2ecc71}
+.red{background: #e74c3c}

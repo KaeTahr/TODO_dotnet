@@ -1,20 +1,53 @@
-<h1>My TODO List</h1>
+<h1>Todos</h1>
 
-<div class="input-row">
-    <input
-        [(ngModel)]="newTitle"
-        placeholder="Add a new todo" 
-        (keyup.enter)="addTodo()"
-    />
-    <button (click)="addTodo()">Add</button>
+<div class="compose">
+  <input [(ngModel)]="newTitle" placeholder="Title" (keyup.enter)="addTodo()">
+  <button (click)="addTodo()">Add</button>
 </div>
 
-<ul>
-    <li *ngFor="let todo of todos">
-        <input type="checkbox" [(ngModel)]="todo.completed" />
-        {{ todo.title }}
-        <button class="delete" (click)="deleteTodo(todo.id)">x</button>
-    </li>
-</ul>
+<div class="cards">
+  <article class="card" *ngFor="let t of todos" (click)="open(t)">
+    <header>
+      <h3>{{ t.title }}</h3>
+      <span class="badge" [class.todo]="t.status==='Todo'" [class.progress]="t.status==='InProgress'" [class.done]="t.status==='Done'">
+        {{ t.status }}
+      </span>
+    </header>
+    <p class="desc">{{ t.description || 'No description' }}</p>
+    <footer (click)="$event.stopPropagation()">
+      <small>Author: {{t.author || '—'}} · Assigned: {{t.assignedTo || '—'}}</small>
+      <div class="actions">
+        <button class="green" (click)="markDone(t)">Complete</button>
+        <button class="red" (click)="confirmDelete(t)">Delete</button>
+      </div>
+    </footer>
+  </article>
+</div>
 
-<p *ngIf="todos.length === 0">No todos yet - add one above!</p>
+<!-- simple modal -->
+<dialog #detail>
+  <h2>{{selected?.title}}</h2>
+  <label>Description</label>
+  <textarea [(ngModel)]="selected!.description"></textarea>
+
+  <label>Assigned to</label>
+  <select [(ngModel)]="selected!.assignedTo">
+    <option *ngFor="let u of users" [value]="u">{{u}}</option>
+  </select>
+
+  <label>Status</label>
+  <select [(ngModel)]="selected!.status">
+    <option value="Todo">Todo</option>
+    <option value="InProgress">InProgress</option>
+    <option value="Done">Done</option>
+  </select>
+
+  <h3>Comments</h3>
+  <ul><li *ngFor="let c of selected?.comments">{{c.author}}: {{c.text}}</li></ul>
+  <input [(ngModel)]="newComment" placeholder="Add a comment" (keyup.enter)="addComment()">
+
+  <div class="modal-actions">
+    <button (click)="save()">Save</button>
+    <button (click)="close()">Close</button>
+  </div>
+</dialog>
