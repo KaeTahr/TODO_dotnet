@@ -25,10 +25,15 @@ export class TodoList implements OnInit {
   }
 
   addTodo(): void {
-    if (this.newTitle.trim()) return;
-    this.todoService.addTodo(this.newTitle).subscribe(() => {
-      this.newTitle = '';
-      this.loadTodos();
+    const title = this.newTitle.trim();
+    if (!title) return;
+
+    this.todoService.addTodo(title).subscribe({
+      next: () => {
+        this.newTitle = '';
+        this.loadTodos();
+      },
+      error: (err) => console.error('POST failed:', err)
     });
   }
 
