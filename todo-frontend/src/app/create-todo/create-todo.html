@@ -1,0 +1,28 @@
+<dialog id="createDialog">
+  <h2>Create New Todo</h2>
+
+  <label>Title</label>
+  <input [(ngModel)]="title" placeholder="Todo title">
+
+  <label>Description</label>
+  <textarea [(ngModel)]="description" placeholder="Short description"></textarea>
+
+  <label>Assign to</label>
+  <select [(ngModel)]="assignedTo">
+    <option [ngValue]="''">—</option>
+    <option *ngFor="let u of users" [value]="u">{{ u }}</option>
+  </select>
+
+  <label>Status</label>
+  <select [(ngModel)]="status">
+    <option value="Todo">Todo</option>
+    <option value="InProgress">In Progress</option>
+    <option value="Done">Done</option>
+  </select>
+
+  <div class="actions">
+    <button (click)="submit()">Create</button>
+    <button (click)="closeDialog()">Cancel</button>
+  </div>
+</dialog>
+

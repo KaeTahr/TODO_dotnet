@@ -1,9 +1,7 @@
 <h1>Todos</h1>
 
-<div class="compose">
-  <input [(ngModel)]="newTitle" placeholder="Title" (keyup.enter)="addTodo()">
-  <button (click)="addTodo()">Add</button>
-</div>
+<button (click)="openCreate()">+ Add Todo</button>
+<app-create-todo (created)="handleCreated($event)"></app-create-todo>
 
 <div class="cards">
   <article class="card" *ngFor="let t of todos" (click)="open(t)">
@@ -25,7 +23,7 @@
 </div>
 
 
-<dialog #detail>
+<dialog #detailDialog>
   <ng-container *ngIf="selected as s">
     <h2>{{ s.title }}</h2>
 
@@ -43,10 +41,6 @@
       <option value="InProgress">InProgress</option>
       <option value="Done">Done</option>
     </select>
-
-    <h3>Comments</h3>
-    <ul><li *ngFor="let c of s.comments">{{c.author}}: {{c.text}}</li></ul>
-    <input [(ngModel)]="newComment" placeholder="Add a comment" (keyup.enter)="addComment()">
 
     <div class="modal-actions">
       <button (click)="save()">Save</button>

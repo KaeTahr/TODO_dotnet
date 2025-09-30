@@ -3,17 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export type TodoStatus = 'Todo'|'InProgress'|'Done';
-export interface Comment { author: string; text: string; createdAt?: string; }
 export interface TodoItem {
   id: number; title: string; description: string;
   author: string; assignedTo: string; status: TodoStatus;
-  timeSpent: number; comments: Comment[];
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class TodoService {
+export class Todo {
   private apiUrl = 'http://localhost:5293/api/todo'; 
 
   constructor(private http: HttpClient) {}
@@ -22,8 +20,9 @@ export class TodoService {
     return this.http.get<TodoItem[]>(this.apiUrl);
   }
   
-  addTodo(title: string): Observable<TodoItem> {
-    return this.http.post<TodoItem>(this.apiUrl, { title, completed: false });
+  addTodo(newTodo: Partial<TodoItem>): Observable<TodoItem> {
+    console.log('Adding todo:', newTodo);
+    return this.http.post<TodoItem>(this.apiUrl, newTodo);
   }
 
   deleteTodo(id: number): Observable<void> {
@@ -32,10 +31,6 @@ export class TodoService {
 
   update(todo: TodoItem) {
      return this.http.put<TodoItem>(`${this.apiUrl}/${todo.id}`, todo); 
-  }
-
-  addComment(id: number, c: Comment) {
-   return this.http.post(`${this.apiUrl}/${id}/comments`, c);
   }
 }
 
