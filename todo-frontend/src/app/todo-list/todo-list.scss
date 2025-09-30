@@ -6,3 +6,28 @@
 .badge.done{background: #90caf9}
 .green{background: #2ecc71}
 .red{background: #e74c3c}
+
+.toolbar { display: flex; justify-content: flex-end; margin: 16px 0; }
+
+.cards {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+.todo-card { 
+    cursor: pointer;
+    padding: 16px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease;
+}
+.todo-card .desc { color: rgba(0, 0, 0, 0.72); }
+
+.status { margin-left: auto; }
+.chip { font-weight: 600; }
+.chip--todo { background: #e9ecef; color: #333; }
+.chip--progress { background: #fff3cd; color: #7a5b00; }
+.chip--done { background: #d1fae5; color: #065f46; }
+
+.row { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }

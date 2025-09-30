@@ -1,50 +1,46 @@
-<h1>Todos</h1>
-
-<button (click)="openCreate()">+ Add Todo</button>
-<app-create-todo (created)="handleCreated($event)"></app-create-todo>
-
-<div class="cards">
-  <article class="card" *ngFor="let t of todos" (click)="open(t)">
-    <header>
-      <h3>{{ t.title }}</h3>
-      <span class="badge" [class.todo]="t.status==='Todo'" [class.progress]="t.status==='InProgress'" [class.done]="t.status==='Done'">
-        {{ t.status }}
-      </span>
-    </header>
-    <p class="desc">{{ t.description || 'No description' }}</p>
-    <footer (click)="$event.stopPropagation()">
-      <small>Author: {{t.author || '—'}} · Assigned: {{t.assignedTo || '—'}}</small>
-      <div class="actions">
-        <button class="green" (click)="markDone(t)">Complete</button>
-        <button class="red" (click)="confirmDelete(t)">Delete</button>
-      </div>
-    </footer>
-  </article>
+<!-- Toolbar -->
+<div class="toolbar">
+  <button mat-raised-button color="primary" (click)="openCreate()">
+    <mat-icon>add</mat-icon>
+    Add Todo
+  </button>
 </div>
 
+<!-- Card grid -->
+<div class="cards">
+  <mat-card class="todo-card"
+            *ngFor="let t of todos; trackBy: trackById"
+            (click)="open(t)">
+    <mat-card-header>
+      <mat-card-title>{{ t.title }}</mat-card-title>
+      <mat-card-subtitle>Assigned: {{ t.assignedTo || '—' }}</mat-card-subtitle>
 
-<dialog #detailDialog>
-  <ng-container *ngIf="selected as s">
-    <h2>{{ s.title }}</h2>
+      <mat-chip-set class="status">
+        <mat-chip class="chip"
+                  [ngClass]="{
+                    'chip--done': t.status === 'Done',
+                    'chip--progress': t.status === 'InProgress',
+                    'chip--todo': t.status === 'Todo'
+                  }">
+          {{ t.status }}
+        </mat-chip>
+      </mat-chip-set>
+    </mat-card-header>
 
-    <label>Description</label>
-    <textarea [(ngModel)]="s.description"></textarea>
+    <mat-card-content>
+      <p class="desc">{{ t.description || 'No description' }}</p>
+    </mat-card-content>
 
-    <label>Assigned to</label>
-    <select [(ngModel)]="s.assignedTo">
-      <option *ngFor="let u of users" [value]="u">{{u}}</option>
-    </select>
-
-    <label>Status</label>
-    <select [(ngModel)]="s.status">
-      <option value="Todo">Todo</option>
-      <option value="InProgress">InProgress</option>
-      <option value="Done">Done</option>
-    </select>
-
-    <div class="modal-actions">
-      <button (click)="save()">Save</button>
-      <button (click)="close()">Close</button>
-    </div>
-  </ng-container>
-</dialog>
+    <!-- Stop bubbling so clicking buttons doesn't open the dialog -->
+    <mat-card-actions (click)="$event.stopPropagation()">
+      <button mat-stroked-button color="primary" (click)="markDone(t); $event.stopPropagation()">
+        <mat-icon>check_circle</mat-icon>
+        Complete
+      </button>
+      <button mat-stroked-button color="warn" (click)="confirmDelete(t); $event.stopPropagation()">
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

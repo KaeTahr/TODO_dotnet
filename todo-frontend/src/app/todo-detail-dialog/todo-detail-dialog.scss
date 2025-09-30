@@ -1,0 +1,30 @@
+.dialogue-content {
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  padding-top: 20px;
+}
+
+.modal-actions {
+  margin-top: 16px;
+  padding: 20px 20px 20px 20px;
+}
+
+.content { display: flex; flex-direction: column; gap: 16px; padding: 10px; }
+.row { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+.full { width: 100%; }
+
+mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 24px;
+}
+
+mat-form-field { width: 100%; }
+textarea[matInput] {
+    min-height: 100px;
+    line-height: 1.4;
+}

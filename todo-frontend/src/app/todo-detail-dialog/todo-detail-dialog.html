@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+
+<mat-dialog-content class="content">
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Description</mat-label>
+    <textarea matInput rows="4" [(ngModel)]="data.description"></textarea>
+  </mat-form-field>
+
+  <div class="row">
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Assigned to</mat-label>
+      <mat-select [(ngModel)]="data.assignedTo">
+        <mat-option [value]="''">—</mat-option>
+        <mat-option *ngFor="let u of users" [value]="u">{{ u }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="data.status">
+        <mat-option value="Todo">Todo</mat-option>
+        <mat-option value="InProgress">In Progress</mat-option>
+        <mat-option value="Done">Done</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="save()">Save</button>
+  <button mat-button (click)="cancel()">Close</button>
+</mat-dialog-actions>
