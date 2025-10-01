@@ -1,0 +1,21 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-right: 2px;
+}
+
+.row {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.full {
+  width: 100%;
+}
+
+textarea[matInput] {
+  min-height: 96px;
+  line-height: 1.4;
+}

@@ -81,7 +81,17 @@ export class TodoList implements OnInit {
   }
 
   openCreate() {
-    (document.querySelector('#createDialog') as HTMLDialogElement).showModal();
+    const ref = this.dialog.open(CreateTodo, {
+      width: '640px',
+      maxWidth: '95vw',
+      autoFocus: false,
+      data: null
+    });
+
+    ref.afterClosed().subscribe(result => {
+      if (!result) return; // cancelled
+      this.todo.update(result).subscribe(() => this.loadTodos());
+    });
   }
 
   trackById(index: number, item: TodoItem): number {

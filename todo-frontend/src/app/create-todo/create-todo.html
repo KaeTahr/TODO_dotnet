@@ -1,28 +1,37 @@
-<dialog id="createDialog">
-  <h2>Create New Todo</h2>
+<h2 mat-dialog-title>Create New Todo</h2>
 
-  <label>Title</label>
-  <input [(ngModel)]="title" placeholder="Todo title">
+<mat-dialog-content class="content">
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Title</mat-label>
+    <input matInput [(ngModel)]="title" (keyup.enter)="save()" />
+  </mat-form-field>
 
-  <label>Description</label>
-  <textarea [(ngModel)]="description" placeholder="Short description"></textarea>
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Description</mat-label>
+    <textarea matInput rows="3" [(ngModel)]="description"></textarea>
+  </mat-form-field>
 
-  <label>Assign to</label>
-  <select [(ngModel)]="assignedTo">
-    <option [ngValue]="''">—</option>
-    <option *ngFor="let u of users" [value]="u">{{ u }}</option>
-  </select>
+  <div class="row">
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Assign to</mat-label>
+      <mat-select [(ngModel)]="assignedTo">
+        <mat-option [value]="''">—</mat-option>
+        <mat-option *ngFor="let u of users" [value]="u">{{ u }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <label>Status</label>
-  <select [(ngModel)]="status">
-    <option value="Todo">Todo</option>
-    <option value="InProgress">In Progress</option>
-    <option value="Done">Done</option>
-  </select>
-
-  <div class="actions">
-    <button (click)="submit()">Create</button>
-    <button (click)="closeDialog()">Cancel</button>
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="status">
+        <mat-option value="Todo">Todo</mat-option>
+        <mat-option value="InProgress">In Progress</mat-option>
+        <mat-option value="Done">Done</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
-</dialog>
+</mat-dialog-content>
 
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="!canSave">Create</button>
+  <button mat-button (click)="cancel()">Close</button>
+</mat-dialog-actions>
